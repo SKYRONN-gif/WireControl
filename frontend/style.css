@@ -1,0 +1,760 @@
+/* ===== IMPORTS ===== */
+/* Importa a fonte Inter do Google Fonts */
+/* weights 400, 500, 600, 700 = regular, médio, semi-negrito, negrito */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ===== VARIÁVEIS ===== */
+/* :root = define variáveis CSS globais (podem ser usadas em qualquer lugar) */
+/* var(--nome) = usa a variável */
+:root {
+    /* Cores primárias (vermelho Flessak) */
+    --primary: #E32119;
+    --primary-hover: #c01d15; /* Tom mais escuro pro hover */
+    --primary-light: #fee2e2; /* Tom clarinho pra sombras/fundos */
+
+    /* Dimensões fixas */
+    --sidebar-width: 260px; /* Largura da sidebar */
+    --header-height: 80px; /* Altura do header */
+
+    /* Cores de fundo */
+    --bg-body: #f8f9fa; /* Fundo da página (cinza clarinho) */
+    --bg-card: #ffffff; /* Fundo dos cards (branco) */
+    --bg-sidebar: #1a1d29; /* Fundo da sidebar (quase preto) */
+    --bg-hover: #f3f4f6; /* Fundo ao passar mouse */
+
+    /* Cores de texto */
+    --text-primary: #111827; /* Texto principal (quase preto) */
+    --text-secondary: #6b7280; /* Texto secundário (cinza) */
+    --text-sidebar: #e5e7eb; /* Texto da sidebar (claro) */
+
+    /* Bordas e sombras */
+    --border: #e5e7eb; /* Cor das bordas */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05); /* Sombra pequena */
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* Sombra média */
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1); /* Sombra grande */
+
+    /* Raios de borda (border-radius) */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+}
+
+/* ===== RESET ===== */
+/* Remove margens/paddings padrão do navegador */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Inclui padding/border no tamanho total */
+}
+
+body {
+    font-family: 'Inter', -apple-system, sans-serif; /* Fonte principal */
+    background: var(--bg-body); /* Usa a variável */
+    color: var(--text-primary);
+    line-height: 1.6; /* Espaçamento entre linhas */
+    display: flex; /* Flexbox pra layout */
+    min-height: 100vh; /* Altura mínima = tela inteira */
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+    width: var(--sidebar-width); /* 260px */
+    background: var(--bg-sidebar); /* Fundo escuro */
+    display: flex;
+    flex-direction: column; /* Itens em coluna (vertical) */
+    position: fixed; /* Fica fixo na tela ao rolar */
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1000; /* Fica acima de outros elementos */
+}
+
+.sidebar-header {
+    padding: 1.5rem; /* 24px de espaçamento interno */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil */
+}
+
+.logo {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    gap: 0.75rem; /* Espaço entre ícone e texto */
+    font-weight: 700; /* Negrito */
+    font-size: 1.25rem; /* 20px */
+    color: white;
+}
+
+.logo-icon {
+    font-size: 1.5rem; /* 24px */
+}
+
+.sidebar-nav {
+    flex: 1; /* Ocupa todo espaço disponível */
+    padding: 1rem;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: var(--text-sidebar);
+    text-decoration: none; /* Remove sublinhado dos links */
+    border-radius: var(--radius-md);
+    transition: all 0.2s; /* Animação suave de 0.2 segundos */
+    margin-bottom: 0.25rem;
+    font-size: 0.9375rem; /* 15px */
+    font-weight: 500;
+}
+
+.nav-item i {
+    width: 20px;
+    height: 20px;
+}
+
+.nav-item:hover { /* :hover = ao passar mouse */
+    background: rgba(255, 255, 255, 0.1); /* Fundo levemente claro */
+}
+
+.nav-item.active { /* .active = item selecionado */
+    background: var(--primary); /* Vermelho */
+    color: white;
+}
+
+.sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: var(--radius-md);
+    cursor: pointer; /* Cursor de mãozinha */
+    transition: background 0.2s;
+}
+
+.user-info:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%; /* Círculo perfeito */
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza a letra */
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.user-details {
+    flex: 1;
+}
+
+.user-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: white;
+}
+
+.user-role {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    margin-left: var(--sidebar-width); /* Deixa espaço pra sidebar */
+    flex: 1; /* Ocupa resto do espaço */
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== HEADER ===== */
+.page-header {
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+}
+
+.header-content {
+    max-width: 1400px; /* Limita largura máxima */
+    margin: 0 auto; /* Centraliza */
+    display: flex;
+    justify-content: space-between; /* Espaço entre título e ações */
+    align-items: center;
+}
+
+.page-header h1 {
+    font-size: 1.75rem; /* 28px */
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.page-subtitle {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+}
+
+.header-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.datetime {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    background: var(--bg-hover);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.datetime i {
+    width: 16px;
+    height: 16px;
+}
+
+/* ===== CONTENT GRID ===== */
+.content-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: grid; /* Grid layout */
+    gap: 1.5rem; /* Espaço entre cards */
+}
+
+/* ===== CARDS ===== */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden; /* Conteúdo não vaza das bordas arredondadas */
+}
+
+.card-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.card-title i {
+    width: 20px;
+    height: 20px;
+    color: var(--primary);
+}
+
+.card-title h2 {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 600;
+}
+
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    background: transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-icon:hover {
+    background: var(--bg-hover);
+    border-color: var(--text-secondary);
+}
+
+.btn-icon i {
+    width: 18px;
+    height: 18px;
+}
+
+/* ===== FORMULÁRIO ===== */
+.card-form {
+    padding: 2rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 colunas iguais */
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.form-group label i {
+    width: 16px;
+    height: 16px;
+    color: var(--text-secondary);
+}
+
+.form-group input {
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 0.9375rem;
+    font-family: inherit; /* Usa mesma fonte do body */
+    transition: all 0.2s;
+    background: var(--bg-card);
+}
+
+.form-group input:focus { /* :focus = quando clica no input */
+    outline: none; /* Remove borda padrão do navegador */
+    border-color: var(--primary); /* Borda vermelha */
+    box-shadow: 0 0 0 3px var(--primary-light); /* Glow vermelho suave */
+}
+
+.form-actions {
+    display: flex;
+    gap: 0.75rem;
+    padding-top: 0.5rem;
+}
+
+/* ===== BOTÕES ===== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn i {
+    width: 18px;
+    height: 18px;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    flex: 1; /* Ocupa todo espaço disponível */
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px); /* Sobe 1px */
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:active { /* :active = enquanto clica */
+    transform: translateY(0); /* Volta ao normal (efeito de apertar) */
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1.5px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-hover);
+    border-color: var(--text-secondary);
+}
+
+/* ===== TABELA ===== */
+.card-table {
+    overflow: hidden;
+}
+
+.table-wrapper {
+    overflow-x: auto; /* Scroll horizontal se necessário */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse; /* Junta as bordas das células */
+}
+
+thead {
+    background: var(--bg-hover);
+}
+
+th {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    font-size: 0.75rem; /* 12px */
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase; /* MAIÚSCULAS */
+    letter-spacing: 0.05em; /* Espaçamento entre letras */
+}
+
+tbody tr {
+    border-top: 1px solid var(--border);
+    transition: background 0.15s;
+}
+
+tbody tr:hover {
+    background: var(--bg-hover);
+}
+
+td {
+    padding: 1rem 1.5rem;
+    font-size: 0.9375rem;
+}
+
+td:first-child { /* Primeira coluna (ID) */
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+/* ===== BOTÕES DE AÇÃO ===== */
+.btn-action {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem; /* 13px */
+    font-weight: 600;
+    border: 1.5px solid;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+}
+
+/* Botão deletar (vermelho) */
+.btn-delete {
+    color: #dc2626;
+    border-color: #fca5a5;
+}
+
+.btn-delete:hover {
+    background: #fee2e2;
+    border-color: #dc2626;
+    transform: translateY(-1px);
+}
+
+/* ===== NOTIFICAÇÕES (TOAST) ===== */
+#toast-container {
+    position: fixed; /* Fica fixo na tela */
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999; /* Acima de tudo */
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 400px;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    background: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    border-left: 4px solid; /* Borda colorida à esquerda */
+    animation: slideIn 0.3s ease; /* Animação de entrada */
+}
+
+/* Animação de entrada do toast */
+@keyframes slideIn {
+    from { /* Estado inicial */
+        transform: translateX(400px); /* Fora da tela à direita */
+        opacity: 0; /* Invisível */
+    }
+    to { /* Estado final */
+        transform: translateX(0); /* Posição normal */
+        opacity: 1; /* Visível */
+    }
+}
+
+/* Cores das bordas baseado no tipo */
+.toast.success {
+    border-left-color: #10b981; /* Verde */
+}
+
+.toast.error {
+    border-left-color: #ef4444; /* Vermelho */
+}
+
+.toast.warning {
+    border-left-color: #f59e0b; /* Laranja */
+}
+
+.toast-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0; /* Não encolhe */
+}
+
+/* Cores dos ícones */
+.toast.success .toast-icon {
+    color: #10b981;
+}
+
+.toast.error .toast-icon {
+    color: #ef4444;
+}
+
+.toast.warning .toast-icon {
+    color: #f59e0b;
+}
+
+.toast-content {
+    flex: 1;
+}
+
+.toast-title {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    margin-bottom: 0.125rem;
+}
+
+.toast-message {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.toast-close {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0.5; /* 50% transparente */
+    transition: opacity 0.2s;
+}
+
+.toast-close:hover {
+    opacity: 1; /* 100% visível */
+}
+
+/* ===== RESPONSIVO ===== */
+/* @media = regras que só aplicam em certos tamanhos de tela */
+@media (max-width: 768px) { /* Telas até 768px (celular/tablet) */
+    .sidebar {
+        transform: translateX(-100%); /* Esconde sidebar */
+    }
+
+    .main-content {
+        margin-left: 0; /* Remove margem */
+    }
+
+    .content-grid {
+        padding: 1rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr; /* 1 coluna só */
+    }
+
+    .form-actions {
+        flex-direction: column; /* Botões em coluna */
+    }
+
+    .btn {
+        width: 100%; /* Largura total */
+    }
+}
+
+/* ========================================= */
+/* 🆕 NOVO: ESTILOS DO MODAL */
+/* ========================================= */
+
+/* Container do modal (cobre tela inteira) */
+.modal {
+    position: fixed; /* Fica fixo na tela */
+    inset: 0; /* top: 0, right: 0, bottom: 0, left: 0 (tela inteira) */
+    z-index: 9998; /* Acima de tudo (menos do toast) */
+    display: none; /* Escondido por padrão */
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+    padding: 1rem; /* Espaçamento nas bordas */
+}
+
+/* Quando o modal tem a classe "active", ele aparece */
+.modal.active {
+    display: flex; /* Mostra o modal (muda de none pra flex) */
+}
+
+/* Backdrop = fundo escuro semitransparente */
+.modal-backdrop {
+    position: absolute; /* Posicionamento absoluto */
+    inset: 0; /* Cobre tudo */
+    background: rgba(0, 0, 0, 0.5); /* Preto com 50% de transparência */
+    backdrop-filter: blur(4px); /* Desfoca o conteúdo atrás */
+    animation: fadeIn 0.2s ease; /* Animação de aparecer */
+}
+
+/* Animação do backdrop (fade in = aparecer gradualmente) */
+@keyframes fadeIn {
+    from { opacity: 0; } /* Começa invisível */
+    to { opacity: 1; } /* Termina visível */
+}
+
+/* Conteúdo do modal (janela branca) */
+.modal-content {
+    position: relative; /* Fica acima do backdrop */
+    background: var(--bg-card); /* Fundo branco */
+    border-radius: var(--radius-lg); /* Bordas arredondadas */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); /* Sombra grande */
+    width: 100%; /* Largura 100% */
+    max-width: 500px; /* Mas no máximo 500px */
+    animation: slideUp 0.3s ease; /* Animação de subir */
+}
+
+/* Animação do conteúdo (slide up = subir) */
+@keyframes slideUp {
+    from {
+        transform: translateY(20px); /* Começa 20px abaixo */
+        opacity: 0; /* Invisível */
+    }
+    to {
+        transform: translateY(0); /* Posição normal */
+        opacity: 1; /* Visível */
+    }
+}
+
+/* Cabeçalho do modal */
+.modal-header {
+    display: flex;
+    justify-content: space-between; /* Título à esquerda, X à direita */
+    align-items: center;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+/* Título do modal */
+.modal-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.modal-title i {
+    width: 20px;
+    height: 20px;
+    color: var(--primary); /* Ícone vermelho */
+}
+
+.modal-title h3 {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 600;
+}
+
+/* Botão X de fechar */
+.modal-close {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.2s;
+    color: var(--text-secondary);
+}
+
+.modal-close:hover {
+    background: var(--bg-hover); /* Fundo cinza ao passar mouse */
+}
+
+.modal-close i {
+    width: 18px;
+    height: 18px;
+}
+
+/* Corpo do modal (onde fica o formulário) */
+.modal-body {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem; /* Espaço entre campos */
+    max-height: 60vh; /* Altura máxima = 60% da tela */
+    overflow-y: auto; /* Scroll vertical se necessário */
+}
+
+/* Rodapé do modal (onde ficam os botões) */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end; /* Botões alinhados à direita */
+    gap: 0.75rem;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--border);
+}
+
+/* ========================================= */
+/* 🆕 NOVO: BOTÃO EDITAR (azul) */
+/* ========================================= */
+.btn-edit {
+    color: #2563eb; /* Azul */
+    border-color: #93c5fd; /* Azul claro */
+    background: transparent;
+}
+
+.btn-edit:hover {
+    background: #eff6ff; /* Fundo azul clarinho */
+    border-color: #2563eb; /* Borda azul escuro */
+    transform: translateY(-1px); /* Sobe 1px */
+}
+
+/* ========================================= */
+/* 🆕 NOVO: ANIMAÇÃO DE SAÍDA DO TOAST */
+/* ========================================= */
+/* (estava faltando no CSS original) */
+@keyframes slideOut {
+    from {
+        transform: translateX(0); /* Posição normal */
+        opacity: 1; /* Visível */
+    }
+    to {
+        transform: translateX(400px); /* Sai pra direita */
+        opacity: 0; /* Invisível */
+    }
+}

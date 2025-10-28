@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ?xml = declaração XML (tipo de arquivo) -->
+<!-- version="1.0" = versão do XML -->
+<!-- encoding="UTF-8" = codificação de caracteres (aceita acentos, emojis, etc) -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<!-- <project> = tag raiz do arquivo POM (Project Object Model) -->
+	<!-- xmlns = namespace (padrões XML do Maven) -->
+	<!-- xsi:schemaLocation = localização do schema (validação do arquivo) -->
+
+	<modelVersion>4.0.0</modelVersion>
+	<!-- modelVersion = versão do modelo POM do Maven -->
+	<!-- 4.0.0 = versão padrão atual -->
+
+	<parent>
+		<!-- <parent> = projeto pai (herda configurações dele) -->
+		<groupId>org.springframework.boot</groupId>
+		<!-- groupId = identificador do grupo/organização -->
+		<!-- org.springframework.boot = Spring Boot oficial -->
+
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<!-- artifactId = nome do artefato/projeto -->
+		<!-- spring-boot-starter-parent = projeto base do Spring Boot -->
+		<!-- já vem com versões compatíveis de todas as dependências -->
+
+		<version>3.5.7</version>
+		<!-- version = versão do Spring Boot que você tá usando -->
+		<!-- 3.5.7 = versão específica -->
+
+		<relativePath/>
+		<!-- relativePath = caminho relativo pro parent -->
+		<!-- vazio = busca no repositório Maven, não localmente -->
+	</parent>
+
+	<groupId>com.flessak</groupId>
+	<!-- groupId do SEU projeto -->
+	<!-- com.flessak = seu domínio/organização (padrão reverso) -->
+
+	<artifactId>estoque-fios</artifactId>
+	<!-- artifactId do SEU projeto -->
+	<!-- estoque-fios = nome do projeto -->
+
+	<version>0.0.1-SNAPSHOT</version>
+	<!-- version do SEU projeto -->
+	<!-- 0.0.1 = primeira versão -->
+	<!-- SNAPSHOT = versão em desenvolvimento (não final) -->
+
+	<name>estoque-fios</name>
+	<!-- name = nome legível do projeto -->
+
+	<description>Gerenciamento para Estoque de Fios</description>
+	<!-- description = descrição do projeto -->
+
+	<url/>
+	<!-- url = URL do projeto (vazio) -->
+
+	<licenses>
+		<license/>
+	</licenses>
+	<!-- licenses = licenças do projeto (vazio) -->
+
+	<developers>
+		<developer/>
+	</developers>
+	<!-- developers = desenvolvedores do projeto (vazio) -->
+
+	<scm>
+		<!-- scm = Source Control Management (controle de versão) -->
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
+	<!-- tudo vazio = não configurado -->
+
+	<properties>
+		<!-- <properties> = propriedades/variáveis do projeto -->
+		<java.version>17</java.version>
+		<!-- java.version = versão do Java que o projeto usa -->
+		<!-- 17 = Java 17 (LTS - Long Term Support) -->
+	</properties>
+
+	<dependencies>
+		<!-- <dependencies> = lista de bibliotecas que o projeto precisa -->
+
+		<dependency>
+			<!-- cada <dependency> é uma biblioteca -->
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<!-- spring-boot-starter-data-jpa = biblioteca do Spring Data JPA -->
+			<!-- JPA = Java Persistence API (acesso a banco de dados) -->
+			<!-- inclui: Hibernate, JPA, Transações -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<!-- spring-boot-starter-web = biblioteca pra criar APIs REST -->
+			<!-- inclui: Spring MVC, Tomcat (servidor), Jackson (JSON) -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<!-- postgresql = driver JDBC do PostgreSQL -->
+			<!-- permite Java se conectar ao banco PostgreSQL -->
+
+			<scope>runtime</scope>
+			<!-- scope = escopo da dependência -->
+			<!-- runtime = só precisa em tempo de execução, não em compilação -->
+			<!-- você não programa diretamente com essa lib, ela só roda por baixo -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<!-- lombok = biblioteca que gera código automaticamente -->
+			<!-- ex: getters, setters, construtores, toString, etc -->
+			<!-- VOCÊ NÃO TÁ USANDO LOMBOK NO CÓDIGO! -->
+
+			<optional>true</optional>
+			<!-- optional = opcional (não obrigatório) -->
+			<!-- true = se alguém usar seu projeto, não vai baixar lombok -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<!-- spring-boot-starter-test = biblioteca pra testes -->
+			<!-- inclui: JUnit, Mockito, AssertJ -->
+
+			<scope>test</scope>
+			<!-- scope = test -->
+			<!-- só usa em testes, não no código principal -->
+		</dependency>
+	</dependencies>
+
+	<build>
+		<!-- <build> = configurações de compilação e build -->
+		<plugins>
+			<!-- <plugins> = plugins do Maven (ferramentas extras) -->
+
+			<plugin>
+				<!-- plugin do compilador Java -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<!-- maven-compiler-plugin = compila o código Java -->
+
+				<configuration>
+					<!-- <configuration> = configurações do plugin -->
+					<annotationProcessorPaths>
+						<!-- annotationProcessorPaths = processadores de anotações -->
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<!-- configura lombok como processador de anotações -->
+							<!-- processa @Getter, @Setter, etc em tempo de compilação -->
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<!-- plugin do Spring Boot -->
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<!-- spring-boot-maven-plugin = cria JAR executável -->
+				<!-- permite rodar: java -jar estoque-fios.jar -->
+
+				<configuration>
+					<excludes>
+						<!-- <excludes> = exclui do JAR final -->
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<!-- exclui lombok do JAR -->
+							<!-- lombok só precisa em compilação, não em execução -->
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

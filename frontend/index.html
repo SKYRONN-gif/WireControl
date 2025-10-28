@@ -1,0 +1,278 @@
+<!DOCTYPE html> <!-- Informa ao navegador que é HTML5 -->
+<html lang="pt-BR"> <!-- Tag raiz | lang="pt-BR" = idioma português brasileiro -->
+<head>
+    <meta charset="UTF-8"> <!-- Codificação de caracteres (acentos, ç, etc) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsividade mobile -->
+    <title>Flessak - Gestão de Estoque</title> <!-- Título na aba do navegador -->
+    <link rel="stylesheet" href="style.css"> <!-- Importa o CSS -->
+    <!-- Ícones profissionais (Lucide Icons) -->
+    <script src="https://unpkg.com/lucide@latest"></script> <!-- Biblioteca de ícones -->
+</head>
+<body> <!-- Corpo da página -->
+
+<!-- CONTAINER DE NOTIFICAÇÕES -->
+<!-- Aqui aparecem os toasts (notificações) no canto superior direito -->
+<div id="toast-container"></div>
+
+<!-- SIDEBAR (menu lateral) -->
+<aside class="sidebar"> <!-- aside = elemento semântico pra conteúdo lateral -->
+    <div class="sidebar-header"> <!-- Cabeçalho da sidebar (logo) -->
+        <div class="logo">
+            <span class="logo-icon">⚡</span> <!-- Ícone do raio -->
+            <span class="logo-text">Flessak</span> <!-- Nome da empresa -->
+        </div>
+    </div>
+
+    <nav class="sidebar-nav"> <!-- nav = navegação | Menu de itens -->
+        <a href="#" class="nav-item active"> <!-- active = item ativo (vermelho) -->
+            <i data-lucide="package"></i> <!-- Ícone de pacote (Lucide renderiza depois) -->
+            <span>Estoque</span>
+        </a>
+        <a href="#" class="nav-item"> <!-- Outros itens (ainda não funcionam) -->
+            <i data-lucide="trending-up"></i>
+            <span>Relatórios</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i data-lucide="settings"></i>
+            <span>Configurações</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-footer"> <!-- Rodapé da sidebar (info do usuário) -->
+        <div class="user-info">
+            <div class="user-avatar">A</div> <!-- Avatar com letra inicial -->
+            <div class="user-details">
+                <div class="user-name">Admin</div> <!-- Nome do usuário -->
+                <div class="user-role">Administrador</div> <!-- Cargo -->
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- CONTEÚDO PRINCIPAL -->
+<main class="main-content"> <!-- main = conteúdo principal da página -->
+
+    <!-- HEADER -->
+    <header class="page-header"> <!-- Cabeçalho do conteúdo (não confundir com <head>) -->
+        <div class="header-content">
+            <div>
+                <h1>Gestão de Estoque de Fios</h1> <!-- Título principal -->
+                <p class="page-subtitle">Controle completo do seu inventário</p> <!-- Subtítulo -->
+            </div>
+            <div class="header-actions"> <!-- Ações do header (data/hora) -->
+                <div class="datetime">
+                    <i data-lucide="clock"></i> <!-- Ícone de relógio -->
+                    <span id="data-hora"></span> <!-- Hora será preenchida por JavaScript -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- GRID DE CONTEÚDO -->
+    <div class="content-grid"> <!-- Container dos cards (formulário e tabela) -->
+
+        <!-- CARD: NOVO FIO -->
+        <div class="card card-form"> <!-- Card = cartão | card-form = específico pra formulário -->
+            <div class="card-header"> <!-- Cabeçalho do card -->
+                <div class="card-title">
+                    <i data-lucide="plus-circle"></i> <!-- Ícone de + -->
+                    <h2>Adicionar Novo Fio</h2> <!-- Título do card -->
+                </div>
+            </div>
+
+            <form id="form-fio" class="form"> <!-- Formulário | id usado pelo JavaScript -->
+                <div class="form-row"> <!-- Linha com 2 campos lado a lado -->
+                    <div class="form-group"> <!-- Grupo = label + input -->
+                        <label for="codigo"> <!-- for conecta ao input com id="codigo" -->
+                            <i data-lucide="hash"></i> <!-- Ícone # -->
+                            Código
+                        </label>
+                        <input type="text" id="codigo" placeholder="Ex: F001" required>
+                        <!-- type="text" = aceita texto -->
+                        <!-- id usado pelo JavaScript pra pegar o valor -->
+                        <!-- placeholder = texto de exemplo -->
+                        <!-- required = campo obrigatório -->
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descricao">
+                            <i data-lucide="file-text"></i>
+                            Descrição
+                        </label>
+                        <input type="text" id="descricao" placeholder="Ex: Fio Flexível Preto" required>
+                    </div>
+                </div>
+
+                <div class="form-row"> <!-- Segunda linha -->
+                    <div class="form-group">
+                        <label for="bitola">
+                            <i data-lucide="ruler"></i>
+                            Bitola
+                        </label>
+                        <input type="text" id="bitola" placeholder="Ex: 6mm²" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantidade">
+                            <i data-lucide="package"></i>
+                            Quantidade (m)
+                        </label>
+                        <input type="number" id="quantidade" step="0.01" placeholder="Ex: 100" required>
+                        <!-- type="number" = só aceita números -->
+                        <!-- step="0.01" = permite decimais (100.50, etc) -->
+                    </div>
+                </div>
+
+                <div class="form-actions"> <!-- Container dos botões -->
+                    <button type="submit" class="btn btn-primary"> <!-- type="submit" = envia o form -->
+                        <i data-lucide="check"></i>
+                        Adicionar Fio
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="limparFormulario()">
+                        <!-- type="button" = não envia o form -->
+                        <!-- onclick = executa função JavaScript ao clicar -->
+                        <i data-lucide="x"></i>
+                        Limpar
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- CARD: TABELA -->
+        <div class="card card-table">
+            <div class="card-header">
+                <div class="card-title">
+                    <i data-lucide="database"></i>
+                    <h2>Fios em Estoque</h2>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-icon" onclick="carregarFios()" title="Atualizar">
+                        <!-- title = tooltip (texto ao passar mouse) -->
+                        <i data-lucide="refresh-cw"></i> <!-- Ícone de atualizar -->
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-wrapper"> <!-- Wrapper = envoltório | permite scroll horizontal se necessário -->
+                <table id="tabela-fios"> <!-- table = tabela -->
+                    <thead> <!-- thead = cabeçalho da tabela -->
+                    <tr> <!-- tr = table row (linha) -->
+                        <th>ID</th> <!-- th = table header (célula do cabeçalho) -->
+                        <th>Código</th>
+                        <th>Descrição</th>
+                        <th>Bitola</th>
+                        <th>Quantidade</th>
+                        <th>Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody> <!-- tbody = corpo da tabela (onde ficam os dados) -->
+                    <!-- Preenchido via JavaScript -->
+                    <!-- O JavaScript vai criar linhas <tr> com células <td> aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- ========================================= -->
+<!-- 🆕 NOVO: MODAL DE EDIÇÃO -->
+<!-- ========================================= -->
+<!-- Modal = janela flutuante que aparece por cima do conteúdo -->
+<div id="modal-editar" class="modal">
+    <!-- id="modal-editar" = usado pelo JavaScript pra abrir/fechar -->
+    <!-- class="modal" = estilos CSS do modal -->
+
+    <!-- Backdrop = fundo escuro semitransparente -->
+    <div class="modal-backdrop" onclick="fecharModalEditar()"></div>
+    <!-- onclick ao clicar no fundo escuro, fecha o modal -->
+
+    <!-- Conteúdo do modal (janela branca) -->
+    <div class="modal-content">
+
+        <!-- Cabeçalho do modal -->
+        <div class="modal-header">
+            <div class="modal-title">
+                <i data-lucide="edit"></i> <!-- Ícone de lápis (editar) -->
+                <h3>Editar Fio</h3> <!-- Título -->
+            </div>
+            <button class="modal-close" onclick="fecharModalEditar()">
+                <!-- Botão X pra fechar -->
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+
+        <!-- Corpo do modal (formulário) -->
+        <form id="form-editar" class="modal-body">
+            <!-- id="form-editar" = usado pelo JavaScript pra capturar o submit -->
+
+            <!-- Campo oculto que guarda o ID do fio sendo editado -->
+            <input type="hidden" id="edit-id">
+            <!-- type="hidden" = campo invisível (só existe no código) -->
+            <!-- Armazena o ID pra saber qual fio atualizar -->
+
+            <!-- Campos visíveis (mesma estrutura do formulário de adicionar) -->
+            <div class="form-group">
+                <label for="edit-codigo">
+                    <i data-lucide="hash"></i>
+                    Código
+                </label>
+                <input type="text" id="edit-codigo" required>
+                <!-- Prefixo "edit-" no id pra diferenciar do formulário de adicionar -->
+            </div>
+
+            <div class="form-group">
+                <label for="edit-descricao">
+                    <i data-lucide="file-text"></i>
+                    Descrição
+                </label>
+                <input type="text" id="edit-descricao" required>
+            </div>
+
+            <div class="form-group">
+                <label for="edit-bitola">
+                    <i data-lucide="ruler"></i>
+                    Bitola
+                </label>
+                <input type="text" id="edit-bitola" required>
+            </div>
+
+            <div class="form-group">
+                <label for="edit-quantidade">
+                    <i data-lucide="package"></i>
+                    Quantidade (m)
+                </label>
+                <input type="number" id="edit-quantidade" step="0.01" required>
+            </div>
+        </form>
+
+        <!-- Rodapé do modal (botões) -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="fecharModalEditar()">
+                <!-- Botão Cancelar -->
+                <i data-lucide="x"></i>
+                Cancelar
+            </button>
+            <button type="submit" form="form-editar" class="btn btn-primary">
+                <!-- Botão Salvar -->
+                <!-- form="form-editar" = conecta ao formulário (mesmo estando fora dele) -->
+                <!-- Quando clicar, dispara o submit do formulário -->
+                <i data-lucide="save"></i>
+                Salvar Alterações
+            </button>
+        </div>
+    </div>
+</div>
+<!-- ========================================= -->
+<!-- 🆕 FIM DO MODAL -->
+<!-- ========================================= -->
+
+<script src="script.js"></script> <!-- Importa o JavaScript -->
+<script>
+    // Inicializa os ícones Lucide
+    // Transforma <i data-lucide="..."> em ícones visuais
+    lucide.createIcons();
+</script>
+</body>
+</html>
